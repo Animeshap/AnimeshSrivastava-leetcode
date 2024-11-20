@@ -5,20 +5,10 @@
 #         self.next = next
 class Solution:
     def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        temp=head
-        total=0
-        while temp!=None:
-            total+=1
-            temp=temp.next
-        #find the middlenode
-        midnode=(total//2)+1
-        temp=head
-        while temp!=None:
-            midnode=midnode-1
-            if midnode==0:
-                break
-            temp=temp.next
-        return temp
-        
-        
-            
+        #optimal solution slow and fast pointer
+        slow=head
+        fast=head
+        while fast!=None and fast.next!=None:
+            slow=slow.next
+            fast=fast.next.next
+        return slow
