@@ -4,36 +4,26 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def removeNthFromEnd(self, head: Optional[ListNode], N: int) -> Optional[ListNode]:
-        if head is None:
-            return None
-        cnt = 0
-        temp = head
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        # Create two pointers, fastp and slowp
+        fastp = head
+        slowp = head
 
-        # Count the number of nodes in the linked list
-        while temp is not None:
-            cnt += 1
-            temp = temp.next
+        # Move the fastp pointer N nodes ahead
+        for i in range(n):
+            fastp = fastp.next
 
-        # If N equals the total number of nodes, delete the head
-        if cnt == N:
-            newhead = head.next
-            head = None
-            return newhead
+        # If fastp becomes None, the Nth node from the end is the head
+        if fastp is None:
+            return head.next
 
-        # Calculate the position of the node to delete (res)
-        res = cnt - N
-        temp = head
-
-        # Traverse to the node just before the one to delete
-        while temp is not None:
-            res -= 1
-            if res == 0:
-                break
-            temp = temp.next
+        # Move both pointers until fastp reaches the end
+        while fastp.next is not None:
+            fastp = fastp.next
+            slowp = slowp.next
 
         # Delete the Nth node from the end
-        delNode = temp.next
-        temp.next = temp.next.next
+        delNode = slowp.next
+        slowp.next = slowp.next.next
         delNode = None
         return head
