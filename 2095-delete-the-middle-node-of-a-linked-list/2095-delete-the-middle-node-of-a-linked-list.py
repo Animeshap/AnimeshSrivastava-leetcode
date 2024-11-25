@@ -1,20 +1,25 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
     def deleteMiddle(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        if not head or not head.next:  # Handle edge cases (0 or 1 node)
+        if not head or not head.next:
+        # If the list is empty or has only one node, return None
             return None
 
-        # Create a list of nodes for brute force
-        res = []
-        temp = head
-        while temp:  # First pass to store all nodes in a list
-            res.append(temp)
-            temp = temp.next
+        slow, fast = head, head
+        prev = None
 
-        # Find the middle index
-        mid = len(res) // 2
+        # Traverse the list to find the middle node
+        while fast and fast.next:
+            prev = slow
+            slow = slow.next
+            fast = fast.next.next
 
-        # If there's a node before the middle, update its `next` pointer to skip the middle node
-        if mid > 0:
-            res[mid - 1].next = res[mid].next
+        # Delete the middle node
+        if prev:
+            prev.next = slow.next
 
         return head
